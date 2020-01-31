@@ -1,11 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BuildingHandler : MonoBehaviour
 {
-    private Building _selectBuilding;
+    [HideInInspector]
+    public Building selectBuilding;
     private BuildingManager _buildingManager;
+
+    [HideInInspector]
+    public bool isInBuilder
+    {
+        get { return selectBuilding; }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -16,15 +24,25 @@ public class BuildingHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && _selectBuilding)
+        if (Input.GetMouseButtonDown(0) && selectBuilding)
         {
             InteractWithGround();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            DisableBuilder();
         }
     }
 
     public void EnableBuilder(Building building)
     {
-        _selectBuilding = building;
+        selectBuilding = building;
+    }
+
+    public void DisableBuilder()
+    {
+        selectBuilding = null;
     }
 
     void InteractWithGround()
@@ -37,7 +55,7 @@ public class BuildingHandler : MonoBehaviour
             if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() &&
                 !_buildingManager.IsHaveBuilding(gridPosition))
             {
-                _buildingManager.addBuilding(_selectBuilding, gridPosition);
+                _buildingManager.addBuilding(selectBuilding, gridPosition);
             }
         }
     }

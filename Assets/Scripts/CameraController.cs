@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Vector3 zoomAmount;
 
     private GameManager _gameManager;
+    private BuildingHandler _buildingHandler;
     private Vector3 _newPosition;
     private Quaternion _newRotation;
     private Vector3 _newZoom;
@@ -21,6 +22,7 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        _buildingHandler = GameObject.Find("Game Manager").GetComponent<BuildingHandler>();
         _newPosition = transform.position;
         _newRotation = transform.rotation;
         _newZoom = cameraTransform.localPosition;
@@ -31,8 +33,11 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleMovementInput();
-        HandleMouseInput();
+        if (!_buildingHandler.isInBuilder)
+        {
+            HandleMovementInput();
+            HandleMouseInput();
+        }
     }
 
     void HandleMovementInput()
