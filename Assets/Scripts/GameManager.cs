@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public int mapWidth = 1;
+    public int mapHeight = 1;
    
     // Start is called before the first frame update
     void Start()

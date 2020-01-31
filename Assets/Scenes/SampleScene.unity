@@ -1161,8 +1161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c29fd0111ccd1e41bc526323bfde3fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 30
-  height: 30
 --- !u!1 &1330646148
 GameObject:
   m_ObjectHideFlags: 0
@@ -2148,6 +2146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23925b1a5fe13344b81aad2cd250be62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapWidth: 30
+  mapHeight: 30
 --- !u!4 &1819679869
 Transform:
   m_ObjectHideFlags: 0

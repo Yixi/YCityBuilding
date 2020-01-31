@@ -5,13 +5,12 @@ using UnityEngine;
 [ExecuteAlways]
 public class Ground : MonoBehaviour
 {
-    [SerializeField] private int width = 1;
-
-    [SerializeField] private int height = 1;
-
+    private GameManager _gameManager;
+    
     // Start is called before the first frame update
     void Start()
     {
+        _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         InitGround();
         // InitCameraPosition();
     }
@@ -27,13 +26,7 @@ public class Ground : MonoBehaviour
 
     void InitGround()
     {
-        transform.position = new Vector3(width / 2, 0, height / 2);
-        transform.localScale = new Vector3(width, 1, height);
-    }
-
-    void InitCameraPosition()
-    {
-        var focalPoint = GameObject.Find("Focal Point").gameObject;
-        focalPoint.transform.position = new Vector3(width / 2, 0, height / 2);
+        transform.position = new Vector3(_gameManager.mapWidth / 2, 0, _gameManager.mapHeight / 2);
+        transform.localScale = new Vector3(_gameManager.mapWidth, 1, _gameManager.mapHeight);
     }
 }

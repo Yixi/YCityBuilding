@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float rotationAmount;
     [SerializeField] private Vector3 zoomAmount;
 
+    private GameManager _gameManager;
     private Vector3 _newPosition;
     private Quaternion _newRotation;
     private Vector3 _newZoom;
@@ -19,9 +20,12 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         _newPosition = transform.position;
         _newRotation = transform.rotation;
         _newZoom = cameraTransform.localPosition;
+        
+        InitCameraPosition();
     }
 
     // Update is called once per frame
@@ -75,6 +79,12 @@ public class CameraController : MonoBehaviour
 
         transform.position = Vector3.Lerp(transform.position, _newPosition, Time.deltaTime * movementTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, _newRotation, Time.deltaTime * movementTime);
+
+        _newZoom = new Vector3(
+            0,
+            Mathf.Clamp(_newZoom.y, 20, 80), 
+            Mathf.Clamp(_newZoom.z, -80, -20));
+
         cameraTransform.localPosition =
             Vector3.Lerp(cameraTransform.localPosition, _newZoom, Time.deltaTime * movementTime);
     }
@@ -85,7 +95,7 @@ public class CameraController : MonoBehaviour
         {
             _newZoom += Input.mouseScrollDelta.y * zoomAmount;
         }
-        
+
         if (Input.GetMouseButtonDown(0))
         {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
@@ -98,14 +108,14 @@ public class CameraController : MonoBehaviour
                 _dragStartPosition = ray.GetPoint(entry);
             }
         }
-        
+
         if (Input.GetMouseButton(0))
         {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        
+
             float entry;
-        
+
             if (plane.Raycast(ray, out entry))
             {
                 _dragCurrentPosition = ray.GetPoint(entry);
@@ -127,4 +137,9 @@ public class CameraController : MonoBehaviour
         }
     }
     
+    void InitCameraPosition()
+    {
+        var focalPoint = GameObject.Find("Focal Point").gameObject;
+        focalPoint.transform.position = new Vector3(_gameManager.mapWidth / 2, 0, _gameManager.mapHeight / 2);
+    }
 }
