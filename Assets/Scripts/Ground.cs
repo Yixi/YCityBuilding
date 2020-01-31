@@ -6,11 +6,14 @@ using UnityEngine;
 public class Ground : MonoBehaviour
 {
     [SerializeField] private int width = 1;
+
     [SerializeField] private int height = 1;
+
     // Start is called before the first frame update
     void Start()
     {
-        InitGround();   
+        InitGround();
+        // InitCameraPosition();
     }
 
     // Update is called once per frame
@@ -24,7 +27,13 @@ public class Ground : MonoBehaviour
 
     void InitGround()
     {
-        transform.position = new Vector3(width / 2, 0,  height / 2);
+        transform.position = new Vector3(width / 2, 0, height / 2);
         transform.localScale = new Vector3(width, 1, height);
+    }
+
+    void InitCameraPosition()
+    {
+        var focalPoint = GameObject.Find("Focal Point").gameObject;
+        focalPoint.transform.position = new Vector3(width / 2, 0, height / 2);
     }
 }
