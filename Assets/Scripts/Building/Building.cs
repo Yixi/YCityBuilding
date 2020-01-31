@@ -11,6 +11,7 @@ public class Building : MonoBehaviour
       INDUSTRY,
       UPTOWN,
       ROAD,
+      TREE
    }
    public int id;
    public int cost;
