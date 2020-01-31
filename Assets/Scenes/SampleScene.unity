@@ -201,7 +201,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 15943403}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1819679870}
+        m_MethodName: EnableBuilder
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 3841179527514223359, guid: c83e533a09f0d464a9a4c78a2ba1e878,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: Building, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &15943403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,7 +354,7 @@ GameObject:
   - component: {fileID: 732621558}
   - component: {fileID: 732621557}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -872,7 +884,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1117986525}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1819679870}
+        m_MethodName: EnableBuilder
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: -3546291466670336880, guid: 5fb356bb829d46c4baf89c280162cccb,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: Building, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1117986525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1399,7 +1423,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1333539033}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1819679870}
+        m_MethodName: EnableBuilder
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 3690897275932056969, guid: 15c217501e8017741a1fe32a9291b02e,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: Building, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1333539033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1652,7 +1688,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1450873111}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1819679870}
+        m_MethodName: EnableBuilder
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 5743768758819708220, guid: de972676b32213342808f2372086b77a,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: Building, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1450873111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2127,6 +2175,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1819679869}
   - component: {fileID: 1819679868}
+  - component: {fileID: 1819679871}
+  - component: {fileID: 1819679870}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -2162,6 +2212,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1819679870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819679867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b6b92b944254340980456ca36e4be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1819679871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819679867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de4b5441d0c57b44cb2af23f6709831a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1839344140
 GameObject:
   m_ObjectHideFlags: 0
