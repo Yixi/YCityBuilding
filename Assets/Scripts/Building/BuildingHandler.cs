@@ -7,11 +7,10 @@ using UnityEngine.UIElements;
 
 public class BuildingHandler : MonoBehaviour
 {
-    [HideInInspector]
-    public Building selectBuilding;
+    [HideInInspector] public Building selectBuilding;
     private BuildingManager _buildingManager;
     private Building _placeholderBuilding;
-    
+
     [HideInInspector]
     public bool isInBuilder
     {
@@ -41,7 +40,6 @@ public class BuildingHandler : MonoBehaviour
         {
             BuildingPlaceholder();
         }
-        
     }
 
     public void EnableBuilder(Building building)
@@ -52,7 +50,7 @@ public class BuildingHandler : MonoBehaviour
         }
 
         selectBuilding = building;
-        
+
         _placeholderBuilding = Instantiate(building, new Vector3(), building.transform.rotation);
     }
 
@@ -65,30 +63,47 @@ public class BuildingHandler : MonoBehaviour
 
     void InteractWithGround()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        // Plane plane = new Plane(Vector3.up, Vector3.zero);
+        // var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        // float entry;
+        // if (plane.Raycast(ray, out entry))
+        // {
+        //     var gridPosition = _buildingManager.CalculateGridPosition(ray.GetPoint(entry));
+        //     if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() &&
+        //         !_buildingManager.IsHaveBuilding(gridPosition))
+        //     {
+        //         _buildingManager.addBuilding(selectBuilding, gridPosition);
+        //     }
+        // }
+
+        Vector3? gridPosition = GetMouseGridPosition();
+        if (gridPosition != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() &&
+            !_buildingManager.IsHaveBuilding((Vector3)gridPosition))
         {
-            var gridPosition = _buildingManager.CalculateGridPosition(hit.point);
-            if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() &&
-                !_buildingManager.IsHaveBuilding(gridPosition))
-            {
-                _buildingManager.addBuilding(selectBuilding, gridPosition);
-            }
+            _buildingManager.addBuilding(selectBuilding, (Vector3)gridPosition);
         }
     }
 
     void BuildingPlaceholder()
     {
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        Vector3? gridPosition = GetMouseGridPosition();
+
+        if (gridPosition != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
-            var gridPosition = _buildingManager.CalculateGridPosition(hit.point);
-            if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-            {
-                _placeholderBuilding.gameObject.transform.position = gridPosition;
-            }
+            _placeholderBuilding.gameObject.transform.position = (Vector3) gridPosition;
         }
+    }
+
+    Vector3? GetMouseGridPosition()
+    {
+        Plane plane = new Plane(Vector3.up, new Vector3(0, 0.5f, 0));
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        float entry;
+        if (plane.Raycast(ray, out entry))
+        {
+            return _buildingManager.CalculateGridPosition(ray.GetPoint(entry));
+        }
+
+        return null;
     }
 }

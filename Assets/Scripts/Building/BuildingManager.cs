@@ -28,7 +28,6 @@ public class BuildingManager : MonoBehaviour
         var build = _buildings[(int) position.x, (int) position.z];
         if (build && build.GetType() != typeof(Building))
         {
-            Debug.Log("Tree");
             Destroy(build);
         }
         _buildings[(int) position.x, (int) position.z] =
