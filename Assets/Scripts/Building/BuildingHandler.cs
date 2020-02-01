@@ -52,6 +52,7 @@ public class BuildingHandler : MonoBehaviour
         selectBuilding = building;
 
         _placeholderBuilding = Instantiate(building, new Vector3(), building.transform.rotation);
+        // _placeholderBuilding.gameObject.SetActive(false);
     }
 
     public void DisableBuilder()
@@ -65,9 +66,12 @@ public class BuildingHandler : MonoBehaviour
     {
         Vector3? gridPosition = GetMouseGridPosition();
         if (gridPosition != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() &&
-            !_buildingManager.IsHaveBuilding((Vector3)gridPosition))
+            !_buildingManager.IsHaveBuilding((Vector3) gridPosition))
         {
-            _buildingManager.addBuilding(selectBuilding, (Vector3)gridPosition);
+            if (CanPlaceBuilding((Vector3) gridPosition))
+            {
+                _buildingManager.addBuilding(selectBuilding, (Vector3) gridPosition);
+            }
         }
     }
 
@@ -77,7 +81,15 @@ public class BuildingHandler : MonoBehaviour
 
         if (gridPosition != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
+            // if (CanPlaceBuilding((Vector3) gridPosition) && !_buildingManager.IsHaveBuilding((Vector3) gridPosition))
+            // {
+            //     _placeholderBuilding.gameObject.SetActive(true);
             _placeholderBuilding.gameObject.transform.position = (Vector3) gridPosition;
+            // }
+            // else
+            // {
+            // _placeholderBuilding.gameObject.SetActive(false);
+            // }
         }
     }
 
@@ -98,13 +110,40 @@ public class BuildingHandler : MonoBehaviour
     {
         var x = (int) position.x;
         var z = (int) position.z;
+        var buildings = _buildingManager._buildings;
         if (selectBuilding.type == Building.BuildingType.ROAD)
         {
             return true;
         }
         else
         {
-            
+            List<Building> aroundBuilding = new List<Building>();
+            if (x > 0)
+            {
+                aroundBuilding.Add(buildings[x - 1, z]);
+            }
+
+            if (x < buildings.GetLength(0))
+            {
+                aroundBuilding.Add(buildings[x + 1, z]);
+            }
+
+            if (z > 0)
+            {
+                aroundBuilding.Add(buildings[x, z - 1]);
+            }
+
+            if (z < buildings.GetLength(1))
+            {
+                aroundBuilding.Add(buildings[x, z + 1]);
+            }
+
+            Debug.Log(aroundBuilding);
+
+            if (aroundBuilding.FindAll(b => b != null && b.type == Building.BuildingType.ROAD).Count > 0)
+            {
+                return true;
+            }
         }
 
         return false;
