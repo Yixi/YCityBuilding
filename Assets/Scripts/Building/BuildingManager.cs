@@ -7,6 +7,7 @@ public class BuildingManager : MonoBehaviour
     public Building[,] _buildings;
     public GameObject buildingParent;
     
+    [SerializeField] private ParticleSystem place;
     private GameManager _gameManager;
     private Ground _ground;
     // Start is called before the first frame update
@@ -32,6 +33,10 @@ public class BuildingManager : MonoBehaviour
         }
         _buildings[(int) position.x, (int) position.z] =
             Instantiate(building, position, Quaternion.identity, buildingParent.transform);
+        if (building.type != Building.BuildingType.ROAD)
+        {
+            Instantiate(place, position, Quaternion.identity, buildingParent.transform);
+        }
     }
 
     public bool IsHaveBuilding(Vector3 position)
