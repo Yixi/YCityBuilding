@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class BuildingHandler : MonoBehaviour
 {
@@ -68,9 +67,18 @@ public class BuildingHandler : MonoBehaviour
         if (gridPosition != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() &&
             !_buildingManager.IsHaveBuilding((Vector3) gridPosition))
         {
-            if (CanPlaceBuilding((Vector3) gridPosition))
+            var canPlace = CanPlaceBuilding(gridPosition.Value);
+            if (canPlace.Item1)
             {
-                _buildingManager.addBuilding(selectBuilding, (Vector3) gridPosition);
+                if (canPlace.Item2.Count > 0)
+                {
+                    _buildingManager.addBuilding(selectBuilding, (Vector3) gridPosition, canPlace.Item2[Random.Range(0, canPlace.Item2.Count)]);
+                }
+                else
+                {
+                    _buildingManager.addBuilding(selectBuilding, (Vector3) gridPosition);
+                }
+                
             }
         }
     }
@@ -79,11 +87,8 @@ public class BuildingHandler : MonoBehaviour
     {
         Vector3? gridPosition = GetMouseGridPosition();
 
-        if (gridPosition != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        if (gridPosition != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && !_buildingManager.IsHaveBuilding(gridPosition.Value))
         {
-            // if (CanPlaceBuilding((Vector3) gridPosition) && !_buildingManager.IsHaveBuilding((Vector3) gridPosition))
-            // {
-            //     _placeholderBuilding.gameObject.SetActive(true);
             _placeholderBuilding.gameObject.transform.position = (Vector3) gridPosition;
             var render = _placeholderBuilding.gameObject.GetComponentsInChildren<Renderer>();
             foreach (var r in render)
@@ -92,11 +97,16 @@ public class BuildingHandler : MonoBehaviour
                 color.a = 0.5f;
                 r.material.color = color;
             }
-            // }
-            // else
-            // {
-            // _placeholderBuilding.gameObject.SetActive(false);
-            // }
+
+            var canPlace = CanPlaceBuilding(gridPosition.Value);
+            
+            if (canPlace.Item1 && selectBuilding.type != Building.BuildingType.ROAD)
+            {
+                var rotation = (Vector3) _buildingManager.ROAD_DIRECTION_HASH[canPlace.Item2[0]];
+                _placeholderBuilding.gameObject.transform.GetChild(0).transform.rotation = Quaternion.Euler(rotation);
+                
+            }
+            
         }
     }
 
@@ -113,46 +123,53 @@ public class BuildingHandler : MonoBehaviour
         return null;
     }
 
-    bool CanPlaceBuilding(Vector3 position)
+    Tuple<bool, List<BuildingManager.ROAD_DIRECTION>> CanPlaceBuilding(Vector3 position)
     {
         var x = (int) position.x;
         var z = (int) position.z;
         var buildings = _buildingManager._buildings;
+        var availableRoadDirection = new List<BuildingManager.ROAD_DIRECTION>();
         if (selectBuilding.type == Building.BuildingType.ROAD)
         {
-            return true;
+            return new Tuple<bool, List<BuildingManager.ROAD_DIRECTION>>(true, availableRoadDirection);
         }
-        else
+
+        var aroundBuilding = new List<Building>();
+        var roadDirections = new List<BuildingManager.ROAD_DIRECTION>();
+        if (x > 0)
         {
-            List<Building> aroundBuilding = new List<Building>();
-            if (x > 0)
-            {
-                aroundBuilding.Add(buildings[x - 1, z]);
-            }
-
-            if (x < buildings.GetLength(0))
-            {
-                aroundBuilding.Add(buildings[x + 1, z]);
-            }
-
-            if (z > 0)
-            {
-                aroundBuilding.Add(buildings[x, z - 1]);
-            }
-
-            if (z < buildings.GetLength(1))
-            {
-                aroundBuilding.Add(buildings[x, z + 1]);
-            }
-
-            Debug.Log(aroundBuilding);
-
-            if (aroundBuilding.FindAll(b => b != null && b.type == Building.BuildingType.ROAD).Count > 0)
-            {
-                return true;
-            }
+            aroundBuilding.Add(buildings[x - 1, z]);
+            roadDirections.Add(BuildingManager.ROAD_DIRECTION.LEFT);
         }
 
-        return false;
+        if (x < buildings.GetLength(0))
+        {
+            aroundBuilding.Add(buildings[x + 1, z]);
+            roadDirections.Add(BuildingManager.ROAD_DIRECTION.RIGHT);
+        }
+
+        if (z > 0)
+        {
+            aroundBuilding.Add(buildings[x, z - 1]);
+            roadDirections.Add(BuildingManager.ROAD_DIRECTION.BOTTOM);
+        }
+
+        if (z < buildings.GetLength(1))
+        {
+            aroundBuilding.Add(buildings[x, z + 1]);
+            roadDirections.Add(BuildingManager.ROAD_DIRECTION.TOP);
+        }
+
+        Enumerable.Range(0, aroundBuilding.Count)
+            .ToList()
+            .ForEach(i =>
+            {
+                if (aroundBuilding[i] != null && aroundBuilding[i].type == Building.BuildingType.ROAD)
+                {
+                    availableRoadDirection.Add(roadDirections[i]);
+                }
+            });
+
+        return new Tuple<bool, List<BuildingManager.ROAD_DIRECTION>>(availableRoadDirection.Count > 0, availableRoadDirection);
     }
 }
