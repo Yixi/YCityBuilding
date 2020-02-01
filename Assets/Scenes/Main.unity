@@ -1055,8 +1055,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   environment: {fileID: 1187405324}
   treePrefbs:
-  - {fileID: 6306212540412673518, guid: 6ff09a92a739133408a1b701020038b3, type: 3}
-  - {fileID: 1160441872960865828, guid: 9e6df800f404d8149998d1988a112d32, type: 3}
+  - {fileID: 7735321387698791239, guid: 6ff09a92a739133408a1b701020038b3, type: 3}
+  - {fileID: 243248870788020390, guid: 9e6df800f404d8149998d1988a112d32, type: 3}
 --- !u!4 &1172206303 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7883429596579590103, guid: 363eb364f24621c4db6f23830aa9d447,

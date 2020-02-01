@@ -7,7 +7,7 @@ using UnityEngine;
 public class Ground : MonoBehaviour
 {
     public GameObject environment;
-    public List<GameObject> treePrefbs;
+    public List<Nature> treePrefbs;
 
     private GameManager _gameManager;
     private BuildingManager _buildingManager;
@@ -43,8 +43,6 @@ public class Ground : MonoBehaviour
         {
             var randomX = Random.Range(0, _gameManager.mapWidth);
             var randomZ = Random.Range(0, _gameManager.mapHeight);
-
-            Debug.Log($"x: {randomX}, z: {randomZ}");
 
             if (!_buildingManager._buildings[randomX, randomZ])
             {

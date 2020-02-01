@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BuildingManager : MonoBehaviour
 {
-    public Object[,] _buildings;
+    public Building[,] _buildings;
     public GameObject buildingParent;
     
     private GameManager _gameManager;
@@ -14,7 +14,7 @@ public class BuildingManager : MonoBehaviour
     {
         _gameManager = GetComponent<GameManager>();
         _ground = GameObject.Find("Ground").GetComponent<Ground>();
-        _buildings = new Object[_gameManager.mapWidth, _gameManager.mapHeight];
+        _buildings = new Building[_gameManager.mapWidth, _gameManager.mapHeight];
         _ground.InitTrees();
     }
 
@@ -26,9 +26,9 @@ public class BuildingManager : MonoBehaviour
     public void addBuilding(Building building, Vector3 position)
     {
         var build = _buildings[(int) position.x, (int) position.z];
-        if (build && build.GetType() != typeof(Building))
+        if (build && build.type == Building.BuildingType.TREE)
         {
-            Destroy(build);
+            Destroy(build.gameObject);
         }
         _buildings[(int) position.x, (int) position.z] =
             Instantiate(building, position, Quaternion.identity, buildingParent.transform);
@@ -36,7 +36,7 @@ public class BuildingManager : MonoBehaviour
 
     public bool IsHaveBuilding(Vector3 position)
     {
-        return _buildings[(int) position.x, (int) position.z] && _buildings[(int) position.x, (int) position.z].GetType() == typeof(Building);
+        return _buildings[(int) position.x, (int) position.z] && _buildings[(int) position.x, (int) position.z].type != Building.BuildingType.TREE;
     }
 
     public Vector3 CalculateGridPosition(Vector3 position)
