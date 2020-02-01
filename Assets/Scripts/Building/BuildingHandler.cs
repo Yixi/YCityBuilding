@@ -9,6 +9,7 @@ public class BuildingHandler : MonoBehaviour
     [HideInInspector] public Building selectBuilding;
     private BuildingManager _buildingManager;
     private Building _placeholderBuilding;
+    private GameManager _gameManager;
 
     [HideInInspector]
     public bool isInBuilder
@@ -20,12 +21,13 @@ public class BuildingHandler : MonoBehaviour
     void Start()
     {
         _buildingManager = GetComponent<BuildingManager>();
+        _gameManager = GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && selectBuilding != null)
+        if (Input.GetMouseButtonDown(0) && selectBuilding)
         {
             InteractWithGround();
         }
@@ -56,9 +58,12 @@ public class BuildingHandler : MonoBehaviour
 
     public void DisableBuilder()
     {
-        selectBuilding = null;
-        Destroy(_placeholderBuilding.gameObject);
+        if (_placeholderBuilding)
+        {
+            Destroy(_placeholderBuilding.gameObject);
+        }
         _placeholderBuilding = null;
+        selectBuilding = null;
     }
 
     void InteractWithGround()
@@ -72,13 +77,12 @@ public class BuildingHandler : MonoBehaviour
             {
                 if (canPlace.Item2.Count > 0)
                 {
-                    _buildingManager.addBuilding(selectBuilding, (Vector3) gridPosition, canPlace.Item2[Random.Range(0, canPlace.Item2.Count)]);
+                    _buildingManager.addBuilding(selectBuilding, (Vector3) gridPosition, canPlace.Item2[0]);
                 }
                 else
                 {
                     _buildingManager.addBuilding(selectBuilding, (Vector3) gridPosition);
                 }
-                
             }
         }
     }
@@ -87,7 +91,8 @@ public class BuildingHandler : MonoBehaviour
     {
         Vector3? gridPosition = GetMouseGridPosition();
 
-        if (gridPosition != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && !_buildingManager.IsHaveBuilding(gridPosition.Value))
+        if (gridPosition != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() &&
+            !_buildingManager.IsHaveBuilding(gridPosition.Value))
         {
             _placeholderBuilding.gameObject.transform.position = (Vector3) gridPosition;
             var render = _placeholderBuilding.gameObject.GetComponentsInChildren<Renderer>();
@@ -99,14 +104,11 @@ public class BuildingHandler : MonoBehaviour
             }
 
             var canPlace = CanPlaceBuilding(gridPosition.Value);
-            
-            if (canPlace.Item1 && selectBuilding.type != Building.BuildingType.ROAD)
+
+            if (canPlace.Item1 && selectBuilding.type != Building.BuildingType.Road)
             {
-                var rotation = (Vector3) _buildingManager.ROAD_DIRECTION_HASH[canPlace.Item2[0]];
-                _placeholderBuilding.gameObject.transform.GetChild(0).transform.rotation = Quaternion.Euler(rotation);
-                
+                _placeholderBuilding.SetDirection(canPlace.Item2[0]);
             }
-            
         }
     }
 
@@ -123,53 +125,57 @@ public class BuildingHandler : MonoBehaviour
         return null;
     }
 
-    Tuple<bool, List<BuildingManager.ROAD_DIRECTION>> CanPlaceBuilding(Vector3 position)
+    Tuple<bool, List<Building.DIRECTION>> CanPlaceBuilding(Vector3 position)
     {
         var x = (int) position.x;
         var z = (int) position.z;
         var buildings = _buildingManager._buildings;
-        var availableRoadDirection = new List<BuildingManager.ROAD_DIRECTION>();
-        if (selectBuilding.type == Building.BuildingType.ROAD)
+        var availableRoadDirection = new List<Building.DIRECTION>();
+        if (selectBuilding.type == Building.BuildingType.Road)
         {
-            return new Tuple<bool, List<BuildingManager.ROAD_DIRECTION>>(true, availableRoadDirection);
+            return new Tuple<bool, List<Building.DIRECTION>>(true, availableRoadDirection);
         }
 
         var aroundBuilding = new List<Building>();
-        var roadDirections = new List<BuildingManager.ROAD_DIRECTION>();
-        if (x > 0)
-        {
-            aroundBuilding.Add(buildings[x - 1, z]);
-            roadDirections.Add(BuildingManager.ROAD_DIRECTION.LEFT);
-        }
+        var roadDirections = new List<Building.DIRECTION>();
 
-        if (x < buildings.GetLength(0))
+        if (x >= 0 && z >= 0 && x < _gameManager.mapWidth && z < _gameManager.mapHeight)
         {
-            aroundBuilding.Add(buildings[x + 1, z]);
-            roadDirections.Add(BuildingManager.ROAD_DIRECTION.RIGHT);
-        }
-
-        if (z > 0)
-        {
-            aroundBuilding.Add(buildings[x, z - 1]);
-            roadDirections.Add(BuildingManager.ROAD_DIRECTION.BOTTOM);
-        }
-
-        if (z < buildings.GetLength(1))
-        {
-            aroundBuilding.Add(buildings[x, z + 1]);
-            roadDirections.Add(BuildingManager.ROAD_DIRECTION.TOP);
-        }
-
-        Enumerable.Range(0, aroundBuilding.Count)
-            .ToList()
-            .ForEach(i =>
+            if (x > 0)
             {
-                if (aroundBuilding[i] != null && aroundBuilding[i].type == Building.BuildingType.ROAD)
-                {
-                    availableRoadDirection.Add(roadDirections[i]);
-                }
-            });
+                aroundBuilding.Add(buildings[x - 1, z]);
+                roadDirections.Add(Building.DIRECTION.Left);
+            }
 
-        return new Tuple<bool, List<BuildingManager.ROAD_DIRECTION>>(availableRoadDirection.Count > 0, availableRoadDirection);
+            if (x < buildings.GetLength(0) - 1)
+            {
+                aroundBuilding.Add(buildings[x + 1, z]);
+                roadDirections.Add(Building.DIRECTION.Right);
+            }
+
+            if (z > 0)
+            {
+                aroundBuilding.Add(buildings[x, z - 1]);
+                roadDirections.Add(Building.DIRECTION.Bottom);
+            }
+
+            if (z < buildings.GetLength(1) - 1)
+            {
+                aroundBuilding.Add(buildings[x, z + 1]);
+                roadDirections.Add(Building.DIRECTION.Top);
+            }
+
+            Enumerable.Range(0, aroundBuilding.Count)
+                .ToList()
+                .ForEach(i =>
+                {
+                    if (aroundBuilding[i] != null && aroundBuilding[i].type == Building.BuildingType.Road)
+                    {
+                        availableRoadDirection.Add(roadDirections[i]);
+                    }
+                });
+        }
+
+        return new Tuple<bool, List<Building.DIRECTION>>(availableRoadDirection.Count > 0, availableRoadDirection);
     }
 }

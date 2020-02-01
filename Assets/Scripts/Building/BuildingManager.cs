@@ -4,22 +4,6 @@ using UnityEngine;
 
 public class BuildingManager : MonoBehaviour
 {
-    public enum ROAD_DIRECTION
-    {
-        LEFT,
-        TOP,
-        RIGHT,
-        BOTTOM
-    }
-
-    public Hashtable ROAD_DIRECTION_HASH = new Hashtable()
-    {
-        {ROAD_DIRECTION.LEFT, new Vector3(0, -90, 0)},
-        {ROAD_DIRECTION.TOP, Vector3.zero},
-        {ROAD_DIRECTION.RIGHT, new Vector3(0, 90, 0)},
-        {ROAD_DIRECTION.BOTTOM, new Vector3(0, 180, 0)}
-    };
-
     public Building[,] _buildings;
     public GameObject buildingParent;
 
@@ -39,19 +23,19 @@ public class BuildingManager : MonoBehaviour
 
     // Update is called once per frame
 
-    public void addBuilding(Building building, Vector3 position, ROAD_DIRECTION direction = ROAD_DIRECTION.BOTTOM)
+    public void addBuilding(Building building, Vector3 position, Building.DIRECTION direction = Building.DIRECTION.Bottom)
     {
         var build = _buildings[(int) position.x, (int) position.z];
-        if (build && build.type == Building.BuildingType.TREE)
+        if (build && build.type == Building.BuildingType.Tree)
         {
             Destroy(build.gameObject);
         }
 
         var addedBuilding = Instantiate(building, position, Quaternion.identity, buildingParent.transform);
-        addedBuilding.transform.GetChild(0).transform.rotation = Quaternion.Euler((Vector3) ROAD_DIRECTION_HASH[direction]);
+        addedBuilding.SetDirection(direction);
         _buildings[(int) position.x, (int) position.z] = addedBuilding;
         
-        if (building.type != Building.BuildingType.ROAD)
+        if (building.type != Building.BuildingType.Road)
         {
             Instantiate(place, position, Quaternion.identity, buildingParent.transform);
         }
@@ -59,8 +43,14 @@ public class BuildingManager : MonoBehaviour
 
     public bool IsHaveBuilding(Vector3 position)
     {
+        if (position.x < 0 || position.x >= _gameManager.mapWidth || position.z < 0 ||
+            position.z >= _gameManager.mapHeight)
+        {
+            return true;
+        }
+        
         return _buildings[(int) position.x, (int) position.z] &&
-               _buildings[(int) position.x, (int) position.z].type != Building.BuildingType.TREE;
+               _buildings[(int) position.x, (int) position.z].type != Building.BuildingType.Tree;
     }
 
     public Vector3 CalculateGridPosition(Vector3 position)
