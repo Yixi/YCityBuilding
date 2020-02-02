@@ -421,7 +421,7 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
-  m_ShadowAngle: 0
+  m_ShadowAngle: 0.35
 --- !u!4 &705507995
 Transform:
   m_ObjectHideFlags: 0
@@ -799,8 +799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 924eee3d0a254784eb6dab4cf1dd93a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: -3546291466670336880, guid: 5fb356bb829d46c4baf89c280162cccb,
-    type: 3}
+  building: {fileID: 779961299440853881, guid: 5fb356bb829d46c4baf89c280162cccb, type: 3}
 --- !u!1 &1151482449
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,6 +962,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1187405325}
     m_Modifications:
+    - target: {fileID: 1990363970498491919, guid: 363eb364f24621c4db6f23830aa9d447,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7868895090646443173, guid: 363eb364f24621c4db6f23830aa9d447,
         type: 3}
       propertyPath: m_Name
