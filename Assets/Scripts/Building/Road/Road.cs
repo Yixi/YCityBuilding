@@ -16,7 +16,7 @@ public class Road : Building
         Crossing = 3,
     }
 
-    public List<Waypoint> waypoints;
+    [HideInInspector]
     public GameObject straight;
     public GameObject crossing;
     public GameObject crossingT;
@@ -43,18 +43,5 @@ public class Road : Building
         roadsPrefs[(int) roadType].SetActive(true);
         road.transform.rotation = Quaternion.Euler(new Vector3(0, r, 0));
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = new Color(0, 1, 0);
-        Gizmos.DrawLine(waypoints[1].transform.position, waypoints[0].transform.position);
-        DrawArrow.ForGizmo(waypoints[1].transform.position,
-            (waypoints[0].transform.position - waypoints[1].transform.position) * 0.5f);
-        Gizmos.DrawLine(waypoints[2].transform.position, waypoints[3].transform.position);
-        DrawArrow.ForGizmo(waypoints[2].transform.position,
-            (waypoints[3].transform.position - waypoints[2].transform.position) * 0.5f);
-    }
-#endif
 
 }

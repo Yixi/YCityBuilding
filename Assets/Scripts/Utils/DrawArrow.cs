@@ -23,3 +23,12 @@ public static class DrawArrow
         Gizmos.DrawRay(pos + direction, left * arrowHeadLength);
     }
 }
+
+public static class DrawPath
+{
+    public static void ForGizmo(Vector3 start, Vector3 end)
+    {
+        Gizmos.DrawLine(start, end);
+        DrawArrow.ForGizmo(start, (end - start) * 0.6f , 0.1f);
+    }
+}
