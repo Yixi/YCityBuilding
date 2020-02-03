@@ -19,6 +19,11 @@ public class CrossingT : MonoBehaviour
         DrawPath.ForGizmo(waypoints[4].transform.position, waypoints[0].transform.position);
         DrawPath.ForGizmo(waypoints[1].transform.position, waypoints[5].transform.position);
         DrawPath.ForGizmo(waypoints[2].transform.position, waypoints[5].transform.position);
+        
+        //turn around
+        
+        DrawPath.ForGizmo(waypoints[4].transform.position, waypoints[5].transform.position);
+
     }
 #endif
 }
