@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class BuildingManager : MonoBehaviour
@@ -36,9 +35,43 @@ public class BuildingManager : MonoBehaviour
 
     public void addRoad(Road road, Vector3 position)
     {
+        var x = (int) position.x;
+        var z = (int) position.z;
+
         DestoryExistNature(position);
+
         var addedRoad = Instantiate(road, position, Quaternion.identity);
         _buildings[(int) position.x, (int) position.z] = addedRoad;
+
+        var around = new List<Building>();
+
+        if (x < _gameManager.mapWidth - 1) around.Add((_buildings[x + 1, z]));
+        if (z > 0) around.Add(_buildings[x, z - 1]);
+        if (x > 0) around.Add(_buildings[x - 1, z]);
+        if (z < _gameManager.mapHeight - 1) around.Add(_buildings[x, z + 1]);
+
+        around = around.FindAll((r => r && r.type == Building.BuildingType.Road));
+
+        if (around.Count == 4)
+        {
+            addedRoad.SetTypeAndDirection(Road.TYPE.Crossing);
+        }
+
+        if (around.Count == 3)
+        {
+            addedRoad.SetTypeAndDirection(Road.TYPE.CrossingT);
+        }
+
+        if (around.Count == 2)
+        {
+            addedRoad.SetTypeAndDirection(Road.TYPE.Turn);
+        }
+
+        if (around.Count == 1)
+        {
+            addedRoad.SetTypeAndDirection(Road.TYPE.Straight);
+        }
+
     }
 
     private void DestoryExistNature(Vector3 position)

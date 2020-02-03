@@ -16,7 +16,6 @@ public class Road : Building
         Crossing = 3,
     }
 
-    [HideInInspector]
     public GameObject straight;
     public GameObject crossing;
     public GameObject crossingT;
@@ -29,14 +28,14 @@ public class Road : Building
     
     private List<GameObject> roadsPrefs;
 
-    public void Start()
+    public void Awake()
     {
         roadsPrefs = new List<GameObject> {straight, turn, crossingT, crossing};
         SetTypeAndDirection(roadType, rotation);
     }
     
     
-    public void SetTypeAndDirection(TYPE t, float r)
+    public void SetTypeAndDirection(TYPE t, float r = 0f)
     {
         roadType = t;
         roadsPrefs.ForEach(p => p.SetActive(false));
