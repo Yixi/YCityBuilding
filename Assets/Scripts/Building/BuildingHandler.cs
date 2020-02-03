@@ -97,13 +97,6 @@ public class BuildingHandler : MonoBehaviour
             !_buildingManager.IsHaveBuilding(gridPosition.Value))
         {
             _placeholderBuilding.gameObject.transform.position = (Vector3) gridPosition;
-            var render = _placeholderBuilding.gameObject.GetComponentsInChildren<Renderer>();
-            foreach (var r in render)
-            {
-                var color = r.material.color;
-                color.a = 0.5f;
-                r.material.color = color;
-            }
 
             var canPlace = CanPlaceBuilding(gridPosition.Value);
 

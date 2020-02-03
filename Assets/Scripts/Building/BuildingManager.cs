@@ -41,7 +41,20 @@ public class BuildingManager : MonoBehaviour
         DestoryExistNature(position);
 
         var addedRoad = Instantiate(road, position, Quaternion.identity);
-        _buildings[(int) position.x, (int) position.z] = addedRoad;
+        _buildings[x, z] = addedRoad;
+
+        CorrectionRoad(x, z, true);
+    }
+
+    private void CorrectionRoad(int x, int z, bool needFixAround = false)
+    {
+        if (x < 0 || z < 0 || x >= _gameManager.mapWidth || z >= _gameManager.mapWidth) return;
+
+        var building =  _buildings[x, z];
+        
+        if (building?.type != Building.BuildingType.Road) return;
+
+        var road = (Road) building;        
 
         var around = new List<Building>();
 
@@ -50,36 +63,103 @@ public class BuildingManager : MonoBehaviour
         if (x > 0) around.Add(_buildings[x - 1, z]);
         if (z < _gameManager.mapHeight - 1) around.Add(_buildings[x, z + 1]);
 
-        around = around.FindAll((r => r && r.type == Building.BuildingType.Road));
+        var TypeRoad = Building.BuildingType.Road;
+        var aroundRoad = around.FindAll((r => r && r.type == TypeRoad));
+        var aroundRoadCount = aroundRoad.Count;
 
-        if (around.Count == 4)
+
+        if (aroundRoadCount == 4)
         {
-            addedRoad.SetTypeAndDirection(Road.TYPE.Crossing);
+            road.SetTypeAndDirection(Road.TYPE.Crossing);
         }
 
-        if (around.Count == 3)
+        if (aroundRoadCount == 3)
         {
-            addedRoad.SetTypeAndDirection(Road.TYPE.CrossingT);
+            if (around[0]?.type == TypeRoad && around[1]?.type == TypeRoad && around[2]?.type == TypeRoad)
+            {
+                road.SetTypeAndDirection(Road.TYPE.CrossingT, 270);
+            }
+
+            if (around[1]?.type == TypeRoad && around[2]?.type == TypeRoad && around[3]?.type == TypeRoad)
+            {
+                road.SetTypeAndDirection(Road.TYPE.CrossingT, 0);
+            }
+
+            if (around[2]?.type == TypeRoad && around[3]?.type == TypeRoad && around[0]?.type == TypeRoad)
+            {
+                road.SetTypeAndDirection(Road.TYPE.CrossingT, 90);
+            }
+
+            if (around[3]?.type == TypeRoad && around[0]?.type == TypeRoad && around[1]?.type == TypeRoad)
+            {
+                road.SetTypeAndDirection(Road.TYPE.CrossingT, 180);
+            }
         }
 
-        if (around.Count == 2)
+        if (aroundRoadCount == 2)
         {
-            addedRoad.SetTypeAndDirection(Road.TYPE.Turn);
+            if (around[0]?.type == TypeRoad && around[2]?.type == TypeRoad)
+            {
+                road.SetTypeAndDirection(Road.TYPE.Straight, 90);
+            }
+            else if (around[1]?.type == TypeRoad && around[3]?.type == TypeRoad)
+            {
+                road.SetTypeAndDirection(Road.TYPE.Straight);
+            }
+            else
+            {
+                if (around[0]?.type == TypeRoad && around[1]?.type == TypeRoad)
+                {
+                    road.SetTypeAndDirection(Road.TYPE.Turn, 180);
+                }
+
+                if (around[0]?.type == TypeRoad && around[3]?.type == TypeRoad)
+                {
+                    road.SetTypeAndDirection(Road.TYPE.Turn, 90);
+                }
+
+                if (around[1]?.type == TypeRoad && around[2]?.type == TypeRoad)
+                {
+                    road.SetTypeAndDirection(Road.TYPE.Turn, 270);
+                }
+
+                if (around[2]?.type == TypeRoad && around[3]?.type == TypeRoad)
+                {
+                    road.SetTypeAndDirection(Road.TYPE.Turn, 0);
+                }
+            }
         }
 
-        if (around.Count == 1)
+        if (aroundRoadCount == 1)
         {
-            addedRoad.SetTypeAndDirection(Road.TYPE.Straight);
+            if (around[0]?.type == TypeRoad || around[2]?.type == TypeRoad)
+            {
+                road.SetTypeAndDirection(Road.TYPE.Straight, 90);
+            }
+            else
+            {
+                road.SetTypeAndDirection(Road.TYPE.Straight);
+            }
         }
 
+        if (needFixAround)
+        {
+            CorrectionRoad(x + 1, z);
+            CorrectionRoad(x, z - 1);
+            CorrectionRoad(x - 1, z);
+            CorrectionRoad(x, z + 1);
+        }
     }
 
     private void DestoryExistNature(Vector3 position)
     {
-        var build = _buildings[(int) position.x, (int) position.z];
+        var x = (int) position.x;
+        var z= (int) position.z;
+        var build = _buildings[x, z];
         if (build && build.type == Building.BuildingType.Tree)
         {
             Destroy(build.gameObject);
+            _buildings[x, z] = null;
         }
     }
 
