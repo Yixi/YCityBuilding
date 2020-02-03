@@ -23,21 +23,30 @@ public class BuildingManager : MonoBehaviour
 
     // Update is called once per frame
 
-    public void addBuilding(Building building, Vector3 position, Building.DIRECTION direction = Building.DIRECTION.Bottom)
+    public void addBuilding(Building building, Vector3 position,
+        Building.DIRECTION direction = Building.DIRECTION.Bottom)
+    {
+        DestoryExistNature(position);
+
+        var addedBuilding = Instantiate(building, position, Quaternion.identity, buildingParent.transform);
+        addedBuilding.SetDirection(direction);
+        _buildings[(int) position.x, (int) position.z] = addedBuilding;
+        Instantiate(place, position, Quaternion.identity, buildingParent.transform);
+    }
+
+    public void addRoad(Road road, Vector3 position)
+    {
+        DestoryExistNature(position);
+        var addedRoad = Instantiate(road, position, Quaternion.identity);
+        _buildings[(int) position.x, (int) position.z] = addedRoad;
+    }
+
+    private void DestoryExistNature(Vector3 position)
     {
         var build = _buildings[(int) position.x, (int) position.z];
         if (build && build.type == Building.BuildingType.Tree)
         {
             Destroy(build.gameObject);
-        }
-
-        var addedBuilding = Instantiate(building, position, Quaternion.identity, buildingParent.transform);
-        addedBuilding.SetDirection(direction);
-        _buildings[(int) position.x, (int) position.z] = addedBuilding;
-        
-        if (building.type != Building.BuildingType.Road)
-        {
-            Instantiate(place, position, Quaternion.identity, buildingParent.transform);
         }
     }
 
@@ -48,7 +57,7 @@ public class BuildingManager : MonoBehaviour
         {
             return true;
         }
-        
+
         return _buildings[(int) position.x, (int) position.z] &&
                _buildings[(int) position.x, (int) position.z].type != Building.BuildingType.Tree;
     }

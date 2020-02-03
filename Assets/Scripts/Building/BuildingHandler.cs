@@ -72,16 +72,18 @@ public class BuildingHandler : MonoBehaviour
         if (gridPosition != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() &&
             !_buildingManager.IsHaveBuilding((Vector3) gridPosition))
         {
-            var canPlace = CanPlaceBuilding(gridPosition.Value);
-            if (canPlace.Item1)
+
+            if (selectBuilding.type == Building.BuildingType.Road)
             {
-                if (canPlace.Item2.Count > 0)
+                _buildingManager.addRoad((Road) selectBuilding, gridPosition.Value);
+            }
+            else
+            {
+
+                var canPlace = CanPlaceBuilding(gridPosition.Value);
+                if (canPlace.Item1)
                 {
-                    _buildingManager.addBuilding(selectBuilding, (Vector3) gridPosition, canPlace.Item2[0]);
-                }
-                else
-                {
-                    _buildingManager.addBuilding(selectBuilding, (Vector3) gridPosition);
+                        _buildingManager.addBuilding(selectBuilding, (Vector3) gridPosition, canPlace.Item2[0]);
                 }
             }
         }
