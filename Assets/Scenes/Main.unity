@@ -2049,6 +2049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingParent: {fileID: 2105670310}
+  roadsParent: {fileID: 1050819518}
   place: {fileID: 6426259965117195093, guid: 99dfaadff09f0f3428d60cb478a86c3d, type: 3}
 --- !u!1 &1839344140
 GameObject:

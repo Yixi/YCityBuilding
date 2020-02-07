@@ -5,6 +5,7 @@ public class BuildingManager : MonoBehaviour
 {
     public Building[,] _buildings;
     public GameObject buildingParent;
+    public GameObject roadsParent;
 
     [SerializeField] private ParticleSystem place;
     private GameManager _gameManager;
@@ -69,7 +70,7 @@ public class BuildingManager : MonoBehaviour
 
         DestoryExistNature(position);
 
-        var addedRoad = Instantiate(road, position, Quaternion.identity);
+        var addedRoad = Instantiate(road, position, Quaternion.identity, roadsParent.transform);
         _buildings[x, z] = addedRoad;
 
         CorrectionRoad(x, z, true);
