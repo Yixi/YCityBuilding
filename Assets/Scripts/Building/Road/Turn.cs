@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class Turn : MonoBehaviour
 {
-    public List<Waypoint> waypoints;
+    public Waypoint topOut;
+    public Waypoint leftIn;
+    public Waypoint topIn;
+    public Waypoint leftOut;
+    public Waypoint middle;
     // Start is called before the first frame update
 
         
@@ -12,9 +16,10 @@ public class Turn : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = new Color(0, 1, 0);
-        DrawPath.ForGizmo(waypoints[1].transform.position, waypoints[4].transform.position);
-        DrawPath.ForGizmo(waypoints[4].transform.position, waypoints[0].transform.position);
-        DrawPath.ForGizmo(waypoints[2].transform.position, waypoints[3].transform.position);
+        Waypoint.DrawWayPointPath(new List<Waypoint>
+        {
+            topOut, leftIn, topIn, leftOut, middle
+        });
     }
 #endif
 }
