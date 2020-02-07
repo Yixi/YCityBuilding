@@ -22,7 +22,7 @@ public class Road : Building
     public GameObject turn;
 
     [SerializeField] private GameObject road;
-    [SerializeField] private TYPE roadType = TYPE.Straight;
+    [SerializeField] public TYPE roadType = TYPE.Straight;
     [SerializeField] public int rotation = 0;
     
     
