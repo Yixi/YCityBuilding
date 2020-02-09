@@ -48,7 +48,7 @@ public class Ground : MonoBehaviour
                 _buildingManager._buildings[randomX, randomZ] = Instantiate(
                     treePrefbs[Random.Range(0, treePrefbs.Count)],
                     new Vector3(randomX, 0, randomZ),
-                    Quaternion.identity,
+                    Quaternion.Euler(0, Random.Range(0, 12) * 30, 0),
                     environment.transform
                 );
             }

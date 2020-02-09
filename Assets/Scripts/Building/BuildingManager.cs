@@ -221,7 +221,6 @@ public class BuildingManager : MonoBehaviour
     {
         int calculateIndex(int index)
         {
-            Debug.Log(index);
             if (index < 0) return index + 8;
             if (index >= 8) return index - 8;
             return index;
