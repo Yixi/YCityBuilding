@@ -6,6 +6,7 @@ public class BuildingManager : MonoBehaviour
     public Building[,] _buildings;
     public GameObject buildingParent;
     public GameObject roadsParent;
+    public VehicleController vehicleController;
 
     [SerializeField] private ParticleSystem place;
     private GameManager _gameManager;
@@ -75,6 +76,11 @@ public class BuildingManager : MonoBehaviour
 
         CorrectionRoad(x, z, true);
         ConnectRoadPath(x, z, true);
+
+        if (roadsParent.GetComponentsInChildren<Road>().Length % 5 == 0)
+        {
+            vehicleController.AddAutoDriveCar();
+        }
     }
 
     private void CorrectionRoad(int x, int z, bool needFixAround = false)
@@ -248,34 +254,5 @@ public class BuildingManager : MonoBehaviour
                 roadAWaypoins[5].nextWaypoints = new List<Waypoint>{roadAWaypoins[4]};
             }
         }
-        
-        // if (direction == "up")
-        // {
-        //     roadAWaypoins[calculateIndex(1 + roadAIndexOffset)].nextWaypoints = new List<Waypoint>
-        //         {roadBWaypoins[calculateIndex(4 + roadBIndexOffset)]};
-        //     roadBWaypoins[calculateIndex(5 + roadBIndexOffset)].nextWaypoints = new List<Waypoint>
-        //         {roadAWaypoins[calculateIndex(0 + roadAIndexOffset)]};
-        // }
-        // if (direction == "right")
-        // {
-        //     roadAWaypoins[calculateIndex(3 + roadAIndexOffset)].nextWaypoints = new List<Waypoint>
-        //         {roadBWaypoins[calculateIndex(6 + roadBIndexOffset)]};
-        //     roadBWaypoins[calculateIndex(7 + roadBIndexOffset)].nextWaypoints = new List<Waypoint>
-        //         {roadAWaypoins[calculateIndex(2 + roadAIndexOffset)]};
-        // }
-        // if (direction == "bottom")
-        // {
-        //     roadAWaypoins[calculateIndex(5 + roadAIndexOffset)].nextWaypoints = new List<Waypoint>
-        //         {roadBWaypoins[calculateIndex(0 + roadBIndexOffset)]};
-        //     roadBWaypoins[calculateIndex(1 + roadBIndexOffset)].nextWaypoints = new List<Waypoint>
-        //         {roadAWaypoins[calculateIndex(4 + roadAIndexOffset)]};
-        // }
-        // if (direction == "left")
-        // {
-        //     roadAWaypoins[calculateIndex(7 + roadAIndexOffset)].nextWaypoints =
-        //         new List<Waypoint> {roadBWaypoins[calculateIndex(2 + roadBIndexOffset)]};
-        //     roadBWaypoins[calculateIndex(3 + roadBIndexOffset)].nextWaypoints =
-        //         new List<Waypoint> {roadAWaypoins[calculateIndex(6 + roadAIndexOffset)]};
-        // }
     }
 }
