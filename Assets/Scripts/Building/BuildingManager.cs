@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class BuildingManager : MonoBehaviour
 {
-    public Building[,] _buildings;
+    public Tile[,] tiles;
+
     public GameObject buildingParent;
     public GameObject roadsParent;
     public VehicleController vehicleController;
@@ -18,8 +19,23 @@ public class BuildingManager : MonoBehaviour
     {
         _gameManager = GetComponent<GameManager>();
         _ground = GameObject.Find("Ground").GetComponent<Ground>();
-        _buildings = new Building[_gameManager.mapWidth, _gameManager.mapHeight];
+        
+        InitTiles();
+        
         _ground.InitTrees();
+    }
+
+    private void InitTiles()
+    {
+        tiles = new Tile[_gameManager.mapWidth, _gameManager.mapHeight];
+        for (int i = 0; i < _gameManager.mapWidth; i++)
+        {
+            for (int j = 0; j < _gameManager.mapHeight; j++)
+            {
+                tiles[i, j] = new Tile();
+            }
+        }
+        
     }
 
     // Update is called once per frame
@@ -31,7 +47,7 @@ public class BuildingManager : MonoBehaviour
 
         var addedBuilding = Instantiate(building, position, Quaternion.identity, buildingParent.transform);
         addedBuilding.SetDirection(direction);
-        _buildings[(int) position.x, (int) position.z] = addedBuilding;
+        tiles[(int) position.x, (int) position.z].building = addedBuilding;
         Instantiate(place, position, Quaternion.identity, buildingParent.transform);
     }
 
@@ -39,11 +55,11 @@ public class BuildingManager : MonoBehaviour
     {
         var x = (int) position.x;
         var z = (int) position.z;
-        var build = _buildings[x, z];
+        var build = tiles[x, z].building;
         if (build && build.type == Building.BuildingType.Tree)
         {
             Destroy(build.gameObject);
-            _buildings[x, z] = null;
+            tiles[x, z] = null;
         }
     }
 
@@ -55,8 +71,7 @@ public class BuildingManager : MonoBehaviour
             return true;
         }
 
-        return _buildings[(int) position.x, (int) position.z] &&
-               _buildings[(int) position.x, (int) position.z].type != Building.BuildingType.Tree;
+        return tiles[(int) position.x, (int) position.z].IsHaveBuilding();
     }
 
     public Vector3 CalculateGridPosition(Vector3 position)
@@ -72,7 +87,7 @@ public class BuildingManager : MonoBehaviour
         DestoryExistNature(position);
 
         var addedRoad = Instantiate(road, position, Quaternion.identity, roadsParent.transform);
-        _buildings[x, z] = addedRoad;
+        tiles[x, z].building = addedRoad;
 
         CorrectionRoad(x, z, true);
         ConnectRoadPath(x, z, true);
@@ -87,7 +102,7 @@ public class BuildingManager : MonoBehaviour
     {
         if (x < 0 || z < 0 || x >= _gameManager.mapWidth || z >= _gameManager.mapWidth) return;
 
-        var building = _buildings[x, z];
+        var building = tiles[x, z].building;
 
         if (building?.type != Building.BuildingType.Road) return;
 
@@ -95,13 +110,13 @@ public class BuildingManager : MonoBehaviour
 
         var around = new List<Building>();
 
-        if (x < _gameManager.mapWidth - 1) around.Add((_buildings[x + 1, z]));
-        if (z > 0) around.Add(_buildings[x, z - 1]);
-        if (x > 0) around.Add(_buildings[x - 1, z]);
-        if (z < _gameManager.mapHeight - 1) around.Add(_buildings[x, z + 1]);
+        if (x < _gameManager.mapWidth - 1) around.Add((tiles[x + 1, z].building));
+        if (z > 0) around.Add(tiles[x, z - 1].building);
+        if (x > 0) around.Add(tiles[x - 1, z].building);
+        if (z < _gameManager.mapHeight - 1) around.Add(tiles[x, z + 1].building);
 
         var TypeRoad = Building.BuildingType.Road;
-        var aroundRoad = around.FindAll((r => r && r.type == TypeRoad));
+        var aroundRoad = around.FindAll((r => r != null && r.type == TypeRoad));
         var aroundRoadCount = aroundRoad.Count;
 
 
@@ -191,27 +206,27 @@ public class BuildingManager : MonoBehaviour
     private void ConnectRoadPath(int x, int z, bool needFixAround = false)
     {
         if (x < 0 || z < 0 || x >= _gameManager.mapWidth || z >= _gameManager.mapWidth) return;
-        var building = _buildings[x, z];
+        var building = tiles[x, z].building;
         if (building?.type != Building.BuildingType.Road) return;
 
-        if (z < _gameManager.mapHeight - 1 && _buildings[x, z + 1]?.type == Building.BuildingType.Road)
+        if (z < _gameManager.mapHeight - 1 && tiles[x, z + 1].building?.type == Building.BuildingType.Road)
         {
-            ConnectPathBetweenRoad((Road) building, (Road) _buildings[x, z + 1], 0);
+            ConnectPathBetweenRoad((Road) building, (Road) tiles[x, z + 1].building, 0);
         }
 
-        if (x < _gameManager.mapWidth - 1 && _buildings[x + 1, z]?.type == Building.BuildingType.Road)
+        if (x < _gameManager.mapWidth - 1 && tiles[x + 1, z].building?.type == Building.BuildingType.Road)
         {
-            ConnectPathBetweenRoad((Road) building, (Road) _buildings[x + 1, z], 2);
+            ConnectPathBetweenRoad((Road) building, (Road) tiles[x + 1, z].building, 2);
         }
 
-        if (z > 0 && _buildings[x, z - 1]?.type == Building.BuildingType.Road)
+        if (z > 0 && tiles[x, z - 1].building?.type == Building.BuildingType.Road)
         {
-            ConnectPathBetweenRoad((Road) building, (Road) _buildings[x, z - 1], 4);
+            ConnectPathBetweenRoad((Road) building, (Road) tiles[x, z - 1].building, 4);
         }
 
-        if (x > 0 && _buildings[x - 1, z]?.type == Building.BuildingType.Road)
+        if (x > 0 && tiles[x - 1, z].building?.type == Building.BuildingType.Road)
         {
-            ConnectPathBetweenRoad((Road) building, (Road) _buildings[x - 1, z], 6);
+            ConnectPathBetweenRoad((Road) building, (Road) tiles[x - 1, z].building, 6);
         }
 
         if (needFixAround)
@@ -246,12 +261,12 @@ public class BuildingManager : MonoBehaviour
         {
             if (roadAWaypoins[1].nextWaypoints.Count == 0)
             {
-                roadAWaypoins[1].nextWaypoints = new List<Waypoint>{roadAWaypoins[0]};
+                roadAWaypoins[1].nextWaypoints = new List<Waypoint> {roadAWaypoins[0]};
             }
 
             if (roadAWaypoins[5].nextWaypoints.Count == 0)
             {
-                roadAWaypoins[5].nextWaypoints = new List<Waypoint>{roadAWaypoins[4]};
+                roadAWaypoins[5].nextWaypoints = new List<Waypoint> {roadAWaypoins[4]};
             }
         }
     }

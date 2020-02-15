@@ -43,7 +43,7 @@ public class Ground : MonoBehaviour
             var randomX = Random.Range(1, _gameManager.mapWidth - 1);
             var randomZ = Random.Range(1, _gameManager.mapHeight - 1);
 
-            if (!_buildingManager._buildings[randomX, randomZ])
+            if (!_buildingManager.tiles[randomX, randomZ].building)
             {
                 var tree = Instantiate(
                     treePrefbs[Random.Range(0, treePrefbs.Count)],
@@ -52,7 +52,7 @@ public class Ground : MonoBehaviour
                     environment.transform
                 );
                 tree.SetRandomRotation();
-                _buildingManager._buildings[randomX, randomZ] = tree;
+                _buildingManager.tiles[randomX, randomZ].building = tree;
             }
         }
     }

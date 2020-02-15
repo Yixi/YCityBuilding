@@ -21,6 +21,8 @@ public class Building : MonoBehaviour
    
    public int id;
    public int cost;
+   public int width = 1;
+   public int height = 1;
    public BuildingType type;
 
    public void SetDirection(DIRECTION direction)

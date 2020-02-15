@@ -8,16 +8,6 @@ public class VehicleController : MonoBehaviour
     public GameObject roadParent;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void AddAutoDriveCar()
     {
@@ -35,7 +25,16 @@ public class VehicleController : MonoBehaviour
 
         void FindWayPoint()
         {
-            var nexWayPoint = wayPoint.nextWaypoints[Random.Range(0, wayPoint.nextWaypoints.Count)];
+            Waypoint nexWayPoint;
+            if (wayPoint.nextWaypoints.Count > 0)
+            {
+                nexWayPoint = wayPoint.nextWaypoints[Random.Range(0, wayPoint.nextWaypoints.Count)];
+            }
+            else
+            {
+                nexWayPoint = wayPoint;
+            }
+
             car.AddPath(nexWayPoint.transform.position.x, nexWayPoint.transform.position.z);
             wayPoint = nexWayPoint;
         }
