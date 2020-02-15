@@ -1,18 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Nature : Building
 {
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public void SetRandomRotation()
     {
-        
+        transform.GetChild(0).transform.rotation = Quaternion.Euler(0, Random.Range(0, 12) * 30, 0);
     }
 }
