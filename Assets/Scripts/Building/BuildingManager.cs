@@ -66,28 +66,28 @@ public class BuildingManager : MonoBehaviour
         if (direction == Building.DIRECTION.Right)
         {
             xRange = Enumerable.Range(0, height);
-            zRange = Enumerable.Range(-width + 1, 1);
+            zRange = Enumerable.Range(-width + 1, width);
         }
 
         if (direction == Building.DIRECTION.Bottom)
         {
-            xRange = Enumerable.Range(-width + 1, 1);
-            zRange = Enumerable.Range(-height + 1, 1);
+            xRange = Enumerable.Range(-width + 1, width);
+            zRange = Enumerable.Range(-height + 1, height);
         }
 
         if (direction == Building.DIRECTION.Left)
         {
-            xRange = Enumerable.Range(-height + 1, 1);
+            xRange = Enumerable.Range(-height + 1, height);
             zRange = Enumerable.Range(0, width);
         }
-        
+
         xRange.ToList().ForEach(x =>
         {
             zRange.ToList().ForEach(z =>
-                {
-                    Debug.Log($"{x}, {z}");
-                    tiles[(int) position.x + x, (int) position.z + z].referenceBuilding = addedBuilding;
-                });
+            {
+                DestoryExistNature(new Vector3(position.x + x, 0, position.z + z));
+                tiles[(int) position.x + x, (int) position.z + z].referenceBuilding = addedBuilding;
+            });
         });
     }
 
