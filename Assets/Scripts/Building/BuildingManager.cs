@@ -59,7 +59,7 @@ public class BuildingManager : MonoBehaviour
         if (build && build.type == Building.BuildingType.Tree)
         {
             Destroy(build.gameObject);
-            tiles[x, z] = null;
+            tiles[x, z].building = null;
         }
     }
 
