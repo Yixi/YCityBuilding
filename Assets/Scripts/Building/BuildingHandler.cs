@@ -115,9 +115,6 @@ public class BuildingHandler : MonoBehaviour
         var tiles = _buildingManager.tiles;
         var currentTile = tiles[x, z];
 
-        Debug.Log(currentTile.building);
-        Debug.Log(currentTile.IsHasBuilding());
-        
         if (selectBuilding.type == Building.BuildingType.Road && !currentTile.IsHasBuilding())
         {
             return true;
