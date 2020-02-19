@@ -6,7 +6,7 @@ public class Tile
 {
     public Building building;
 
-    public bool IsHaveBuilding()
+    public bool IsHasBuilding()
     {
         return building && building.type != Building.BuildingType.Tree;
     }

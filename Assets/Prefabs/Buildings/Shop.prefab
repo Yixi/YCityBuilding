@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   cost: 100
+  width: 1
+  height: 1
   type: 0
 --- !u!1 &1900688361765578
 GameObject:
@@ -72,13 +74,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900688361765578}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.5, y: 0.507, z: 0.5}
   m_LocalScale: {x: 0.23826, y: 0.23826, z: 0.23826}
   m_Children: []
   m_Father: {fileID: 4377440746924604}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &33074426000289840
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -101,6 +103,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

@@ -71,7 +71,7 @@ public class BuildingManager : MonoBehaviour
             return true;
         }
 
-        return tiles[(int) position.x, (int) position.z].IsHaveBuilding();
+        return tiles[(int) position.x, (int) position.z].IsHasBuilding();
     }
 
     public Vector3 CalculateGridPosition(Vector3 position)
