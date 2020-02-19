@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Tile
 {
+    //the building Instantiate tile
     public Building building;
+
+    //the building reference tile
+    public Building referenceBuilding;
 
     public bool IsHasBuilding()
     {
-        return building && building.type != Building.BuildingType.Tree;
+        return (building || referenceBuilding) && building?.type != Building.BuildingType.Tree;
     }
 }

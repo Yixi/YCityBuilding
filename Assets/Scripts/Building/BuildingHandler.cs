@@ -69,8 +69,6 @@ public class BuildingHandler : MonoBehaviour
 
     void InteractWithGround()
     {
-      
-
         var gridPosition = GetMouseGridPosition();
         if (gridPosition != null &&
             !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() &&
@@ -83,14 +81,11 @@ public class BuildingHandler : MonoBehaviour
             }
             else
             {
-                if (CanPlaceBuilding(gridPosition.Value))
-                {
-                    _buildingManager.addBuilding(
-                        selectBuilding,
-                        gridPosition.Value,
-                        _placeholderBuilding.Direction
-                    );
-                }
+                _buildingManager.addBuilding(
+                    selectBuilding,
+                    gridPosition.Value,
+                    _placeholderBuilding.Direction
+                );
             }
         }
     }
@@ -108,7 +103,6 @@ public class BuildingHandler : MonoBehaviour
         {
             _placeholderBuilding.gameObject.transform.position = gridPosition.Value;
         }
-
     }
 
     Boolean CanPlaceBuilding(Vector3 position)
@@ -121,6 +115,9 @@ public class BuildingHandler : MonoBehaviour
         var tiles = _buildingManager.tiles;
         var currentTile = tiles[x, z];
 
+        Debug.Log(currentTile.building);
+        Debug.Log(currentTile.IsHasBuilding());
+        
         if (selectBuilding.type == Building.BuildingType.Road && !currentTile.IsHasBuilding())
         {
             return true;
@@ -148,7 +145,7 @@ public class BuildingHandler : MonoBehaviour
         {
             for (var i = 0; i < buildingHeight; i++)
             {
-                for (var j = 0; j < -buildingWidth; j--)
+                for (var j = 0; j > -buildingWidth; j--)
                 {
                     if (tiles[x + i, z + j].IsHasBuilding()) return false;
                 }
@@ -162,9 +159,9 @@ public class BuildingHandler : MonoBehaviour
 
         if (direction == Building.DIRECTION.Bottom)
         {
-            for (var i = 0; i < -buildingWidth; i--)
+            for (var i = 0; i > -buildingWidth; i--)
             {
-                for (var j = 0; j < -buildingHeight; j--)
+                for (var j = 0; j > -buildingHeight; j--)
                 {
                     if (tiles[x + i, z + j].IsHasBuilding()) return false;
                 }
@@ -178,7 +175,7 @@ public class BuildingHandler : MonoBehaviour
 
         if (direction == Building.DIRECTION.Left)
         {
-            for (var i = 0; i < -buildingHeight; i--)
+            for (var i = 0; i > -buildingHeight; i--)
             {
                 for (var j = 0; j < buildingWidth; j++)
                 {

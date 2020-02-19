@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BuildingManager : MonoBehaviour
@@ -19,9 +20,9 @@ public class BuildingManager : MonoBehaviour
     {
         _gameManager = GetComponent<GameManager>();
         _ground = GameObject.Find("Ground").GetComponent<Ground>();
-        
+
         InitTiles();
-        
+
         _ground.InitTrees();
     }
 
@@ -35,7 +36,6 @@ public class BuildingManager : MonoBehaviour
                 tiles[i, j] = new Tile();
             }
         }
-        
     }
 
     // Update is called once per frame
@@ -47,9 +47,50 @@ public class BuildingManager : MonoBehaviour
 
         var addedBuilding = Instantiate(building, position, Quaternion.identity, buildingParent.transform);
         addedBuilding.SetDirection(direction);
-        tiles[(int) position.x, (int) position.z].building = addedBuilding;
         Instantiate(place, position, Quaternion.identity, buildingParent.transform);
+
+        tiles[(int) position.x, (int) position.z].building = addedBuilding;
+
+        var width = building.width;
+        var height = building.height;
+
+        IEnumerable<int> xRange = Enumerable.Range(0, 1);
+        IEnumerable<int> zRange = Enumerable.Range(0, 1);
+
+        if (direction == Building.DIRECTION.Top)
+        {
+            xRange = Enumerable.Range(0, width);
+            zRange = Enumerable.Range(0, height);
+        }
+
+        if (direction == Building.DIRECTION.Right)
+        {
+            xRange = Enumerable.Range(0, height);
+            zRange = Enumerable.Range(-width + 1, 1);
+        }
+
+        if (direction == Building.DIRECTION.Bottom)
+        {
+            xRange = Enumerable.Range(-width + 1, 1);
+            zRange = Enumerable.Range(-height + 1, 1);
+        }
+
+        if (direction == Building.DIRECTION.Left)
+        {
+            xRange = Enumerable.Range(-height + 1, 1);
+            zRange = Enumerable.Range(0, width);
+        }
+        
+        xRange.ToList().ForEach(x =>
+        {
+            zRange.ToList().ForEach(z =>
+                {
+                    Debug.Log($"{x}, {z}");
+                    tiles[(int) position.x + x, (int) position.z + z].referenceBuilding = addedBuilding;
+                });
+        });
     }
+
 
     private void DestoryExistNature(Vector3 position)
     {
