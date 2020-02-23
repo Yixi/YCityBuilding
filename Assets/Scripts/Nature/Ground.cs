@@ -38,7 +38,7 @@ public class Ground : MonoBehaviour
 
     public void InitTrees()
     {
-        foreach (var i in Enumerable.Range(0, Random.Range(15, 25)))
+        foreach (var i in Enumerable.Range(0, Random.Range(60 ,120)))
         {
             var randomX = Random.Range(1, _gameManager.mapWidth - 1);
             var randomZ = Random.Range(1, _gameManager.mapHeight - 1);
