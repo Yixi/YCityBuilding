@@ -28,6 +28,15 @@ public class Building : MonoBehaviour
     public int height = 1;
     public BuildingType type;
     public MeshRenderer mesh;
+    public GameObject arrow;
+
+    public void ShowFrontArrow()
+    {
+        if (arrow)
+        {
+            arrow.SetActive(true);
+        }
+    }
 
     public void SetColor(Color color)
     {
@@ -44,7 +53,7 @@ public class Building : MonoBehaviour
             material.EnableKeyword("_ALPHABLEND_ON");
             material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
             material.renderQueue = 3000;
-            
+
             var materials = new List<Material>();
             foreach (var m in mesh.materials)
             {
@@ -54,7 +63,7 @@ public class Building : MonoBehaviour
             mesh.materials = materials.ToArray();
         }
     }
-    
+
     public DIRECTION Direction
     {
         get
@@ -76,7 +85,7 @@ public class Building : MonoBehaviour
             return DIRECTION.Top;
         }
     }
-    
+
     public void SetDirection(DIRECTION direction)
     {
         var childGameObject = transform.GetChild(0);

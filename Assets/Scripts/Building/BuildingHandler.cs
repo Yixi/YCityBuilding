@@ -54,6 +54,7 @@ public class BuildingHandler : MonoBehaviour
         selectBuilding = building;
 
         _placeholderBuilding = Instantiate(building, new Vector3(), building.transform.rotation);
+        _placeholderBuilding.ShowFrontArrow();
     }
 
     public void DisableBuilder()
