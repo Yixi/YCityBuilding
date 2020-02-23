@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class BuildingMenu : MonoBehaviour
 {
     public Building building;
-
+    
     private BuildingHandler _buildingHandler;
     private Button _button;
     private Image _buttonImage;
@@ -16,6 +14,7 @@ public class BuildingMenu : MonoBehaviour
     void Start()
     {
         _buildingHandler = GameObject.Find("Game Manager").GetComponent<BuildingHandler>();
+        
         _buttonImage = GetComponent<Image>();
         _defaultColor = _buttonImage.color;
 
@@ -37,8 +36,11 @@ public class BuildingMenu : MonoBehaviour
 
     void OnClick()
     {
-        _buildingHandler.EnableBuilder(building);
-        SetActive();
+        if (building)
+        {
+            _buildingHandler.EnableBuilder(building);
+            SetActive();
+        }
     }
 
     void SetActive()
