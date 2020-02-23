@@ -105,93 +105,100 @@ public class BuildingHandler : MonoBehaviour
             if (CanPlaceBuilding(gridPosition.Value))
             {
                 _placeholderBuilding.SetColor(new Color(0, 1, 0, .5f));
-            } else
+            }
+            else
             {
                 _placeholderBuilding.SetColor(new Color(1, 0, 0, .5f));
             }
         }
-        
     }
 
     Boolean CanPlaceBuilding(Vector3 position)
     {
-        var x = (int) position.x;
-        var z = (int) position.z;
-        var buildingWidth = _placeholderBuilding.width;
-        var buildingHeight = _placeholderBuilding.height;
-        var direction = _placeholderBuilding.Direction;
-        var tiles = _buildingManager.tiles;
-        var currentTile = tiles[x, z];
-
-        if (selectBuilding.type == Building.BuildingType.Road && !currentTile.IsHasBuilding())
+        try
         {
-            return true;
-        }
+            var x = (int) position.x;
+            var z = (int) position.z;
+            var buildingWidth = _placeholderBuilding.width;
+            var buildingHeight = _placeholderBuilding.height;
+            var direction = _placeholderBuilding.Direction;
+            var tiles = _buildingManager.tiles;
+            var currentTile = tiles[x, z];
 
-        // 1. make all tile have no building; 2. the direction must near the road;
-        if (direction == Building.DIRECTION.Top)
-        {
-            for (var i = 0; i < buildingWidth; i++)
+            if (selectBuilding.type == Building.BuildingType.Road && !currentTile.IsHasBuilding())
             {
-                for (var j = 0; j < buildingHeight; j++)
-                {
-                    if (tiles[x + i, z + j].IsHasBuilding()) return false;
-                }
+                return true;
             }
 
-            var topRoadCount = Enumerable.Range(0, buildingWidth)
-                .ToList()
-                .FindAll(i => tiles[x + i, z + buildingHeight].building?.type == Building.BuildingType.Road).Count;
-
-            return topRoadCount != 0;
-        }
-
-        if (direction == Building.DIRECTION.Right)
-        {
-            for (var i = 0; i < buildingHeight; i++)
+            // 1. make all tile have no building; 2. the direction must near the road;
+            if (direction == Building.DIRECTION.Top)
             {
-                for (var j = 0; j > -buildingWidth; j--)
+                for (var i = 0; i < buildingWidth; i++)
                 {
-                    if (tiles[x + i, z + j].IsHasBuilding()) return false;
+                    for (var j = 0; j < buildingHeight; j++)
+                    {
+                        if (tiles[x + i, z + j].IsHasBuilding()) return false;
+                    }
                 }
+
+                var topRoadCount = Enumerable.Range(0, buildingWidth)
+                    .ToList()
+                    .FindAll(i => tiles[x + i, z + buildingHeight].building?.type == Building.BuildingType.Road).Count;
+
+                return topRoadCount != 0;
             }
 
-            var rightRoadCount = Enumerable.Range(0, buildingWidth)
-                .ToList()
-                .FindAll(i => tiles[x + buildingHeight, z - i].building?.type == Building.BuildingType.Road).Count;
-            return rightRoadCount != 0;
-        }
-
-        if (direction == Building.DIRECTION.Bottom)
-        {
-            for (var i = 0; i > -buildingWidth; i--)
+            if (direction == Building.DIRECTION.Right)
             {
-                for (var j = 0; j > -buildingHeight; j--)
+                for (var i = 0; i < buildingHeight; i++)
                 {
-                    if (tiles[x + i, z + j].IsHasBuilding()) return false;
+                    for (var j = 0; j > -buildingWidth; j--)
+                    {
+                        if (tiles[x + i, z + j].IsHasBuilding()) return false;
+                    }
                 }
+
+                var rightRoadCount = Enumerable.Range(0, buildingWidth)
+                    .ToList()
+                    .FindAll(i => tiles[x + buildingHeight, z - i].building?.type == Building.BuildingType.Road).Count;
+                return rightRoadCount != 0;
             }
 
-            var bottomRoadCount = Enumerable.Range(0, buildingWidth)
-                .ToList()
-                .FindAll(i => tiles[x - i, z - buildingHeight].building?.type == Building.BuildingType.Road).Count;
-            return bottomRoadCount != 0;
-        }
-
-        if (direction == Building.DIRECTION.Left)
-        {
-            for (var i = 0; i > -buildingHeight; i--)
+            if (direction == Building.DIRECTION.Bottom)
             {
-                for (var j = 0; j < buildingWidth; j++)
+                for (var i = 0; i > -buildingWidth; i--)
                 {
-                    if (tiles[x + i, z + j].IsHasBuilding()) return false;
+                    for (var j = 0; j > -buildingHeight; j--)
+                    {
+                        if (tiles[x + i, z + j].IsHasBuilding()) return false;
+                    }
                 }
+
+                var bottomRoadCount = Enumerable.Range(0, buildingWidth)
+                    .ToList()
+                    .FindAll(i => tiles[x - i, z - buildingHeight].building?.type == Building.BuildingType.Road).Count;
+                return bottomRoadCount != 0;
             }
 
-            var leftRoadCount = Enumerable.Range(0, buildingWidth)
-                .ToList()
-                .FindAll(i => tiles[x - buildingHeight, z + i].building?.type == Building.BuildingType.Road).Count;
-            return leftRoadCount != 0;
+            if (direction == Building.DIRECTION.Left)
+            {
+                for (var i = 0; i > -buildingHeight; i--)
+                {
+                    for (var j = 0; j < buildingWidth; j++)
+                    {
+                        if (tiles[x + i, z + j].IsHasBuilding()) return false;
+                    }
+                }
+
+                var leftRoadCount = Enumerable.Range(0, buildingWidth)
+                    .ToList()
+                    .FindAll(i => tiles[x - buildingHeight, z + i].building?.type == Building.BuildingType.Road).Count;
+                return leftRoadCount != 0;
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+            return false;
         }
 
         return false;
