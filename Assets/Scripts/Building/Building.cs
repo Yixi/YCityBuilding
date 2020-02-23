@@ -27,8 +27,34 @@ public class Building : MonoBehaviour
     public int width = 1;
     public int height = 1;
     public BuildingType type;
+    public MeshRenderer mesh;
 
+    public void SetColor(Color color)
+    {
+        if (mesh)
+        {
+            var material = new Material(Shader.Find("Standard"))
+            {
+                color = color
+            };
+            material.SetInt("_SrcBlend", (int) UnityEngine.Rendering.BlendMode.SrcAlpha);
+            material.SetInt("_DstBlend", (int) UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            material.SetInt("_ZWrite", 0);
+            material.DisableKeyword("_ALPHATEST_ON");
+            material.EnableKeyword("_ALPHABLEND_ON");
+            material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+            material.renderQueue = 3000;
+            
+            var materials = new List<Material>();
+            foreach (var m in mesh.materials)
+            {
+                materials.Add(material);
+            }
 
+            mesh.materials = materials.ToArray();
+        }
+    }
+    
     public DIRECTION Direction
     {
         get

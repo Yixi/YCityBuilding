@@ -102,7 +102,15 @@ public class BuildingHandler : MonoBehaviour
         if (gridPosition != null)
         {
             _placeholderBuilding.gameObject.transform.position = gridPosition.Value;
+            if (CanPlaceBuilding(gridPosition.Value))
+            {
+                _placeholderBuilding.SetColor(new Color(0, 1, 0, .5f));
+            } else
+            {
+                _placeholderBuilding.SetColor(new Color(1, 0, 0, .5f));
+            }
         }
+        
     }
 
     Boolean CanPlaceBuilding(Vector3 position)

@@ -49,6 +49,7 @@ MonoBehaviour:
   width: 3
   height: 2
   type: 1
+  mesh: {fileID: 6520506438098160782}
 --- !u!1 &4187876269468952044
 GameObject:
   m_ObjectHideFlags: 0
