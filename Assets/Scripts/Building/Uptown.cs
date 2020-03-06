@@ -7,9 +7,12 @@ public class Uptown : Building
 
     [Header("Uptown values")]
     public int maxPeopleCount;
-    [HideInInspector] public ResourceManager resourceManager;
-    private int currentPeopleIn = 0;
+    private ResourceManager _resourceManager;
+    private int currentPeopleIn;
 
+    private void Awake() {
+        _resourceManager = GameObject.Find("Game Manager").GetComponent<ResourceManager>();
+    }
     public void ReadyToCheckIn()
     {
         IncreasePeople();
@@ -19,7 +22,7 @@ public class Uptown : Building
         var increased = Random.Range(0, 3);
 
         currentPeopleIn += increased;
-        resourceManager.increasePeople(increased);        
+        _resourceManager.increasePeople(increased);        
 
         if (currentPeopleIn < maxPeopleCount) {
             Invoke("IncreasePeople", 10.0f);

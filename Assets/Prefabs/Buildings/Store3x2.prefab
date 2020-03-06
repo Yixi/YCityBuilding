@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4077273949542292765}
-  - component: {fileID: 8140875281339570298}
+  - component: {fileID: 2961781173332019560}
   m_Layer: 0
   m_Name: Store3x2
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8140875281339570298
+--- !u!114 &2961781173332019560
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 909533542304296781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 192c3f4251a7d0a47affc7f1be715f0d, type: 3}
+  m_Script: {fileID: 11500000, guid: 83d792bd862a5314c93e469cf3d5b085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 5
@@ -51,6 +51,7 @@ MonoBehaviour:
   type: 1
   mesh: {fileID: 6520506438098160782}
   arrow: {fileID: 6257749411307433714}
+  maxCapacity: 50
 --- !u!1 &4187876269468952044
 GameObject:
   m_ObjectHideFlags: 0

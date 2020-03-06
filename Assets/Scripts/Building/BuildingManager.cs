@@ -92,10 +92,11 @@ public class BuildingManager : MonoBehaviour
             });
         });
         
-        subtractMoney(building);
-        if (building.type == Building.BuildingType.Uptown) {
-             ((Uptown)building).resourceManager = _resourceManager;
-            ((Uptown)building).ReadyToCheckIn();
+        subtractMoney(addedBuilding);
+        if (addedBuilding.type == Building.BuildingType.Uptown) {
+            ((Uptown)addedBuilding).ReadyToCheckIn();
+        } else if (addedBuilding.type == Building.BuildingType.Industry) {
+            ((Industry)addedBuilding).ReadyToProduce();
         }
     }
 
@@ -146,7 +147,7 @@ public class BuildingManager : MonoBehaviour
             vehicleController.AddAutoDriveCar();
         }
 
-        subtractMoney(road);
+        subtractMoney(addedRoad);
     }
 
     private void subtractMoney(Building building) {
