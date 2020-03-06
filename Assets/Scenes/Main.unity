@@ -969,7 +969,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 456176565}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.9292874, y: -0.16991329, z: 12.683614}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1827,7 +1827,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1050819518}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.085754, y: -2.5079117, z: 16.43507}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2284,17 +2284,17 @@ PrefabInstance:
     - target: {fileID: 7883429596579590103, guid: 363eb364f24621c4db6f23830aa9d447,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.461939
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7883429596579590103, guid: 363eb364f24621c4db6f23830aa9d447,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.6234255
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7883429596579590103, guid: 363eb364f24621c4db6f23830aa9d447,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 16.109674
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7883429596579590103, guid: 363eb364f24621c4db6f23830aa9d447,
         type: 3}
@@ -2400,7 +2400,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1187405324}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5380609, y: 1.6234255, z: -1.1096739}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1172206303}
@@ -4065,6 +4065,7 @@ GameObject:
   - component: {fileID: 1819679871}
   - component: {fileID: 1819679870}
   - component: {fileID: 1819679872}
+  - component: {fileID: 1819679873}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -4143,6 +4144,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   peopleText: {fileID: 1839344142}
   MoneyText: {fileID: 1151482451}
+--- !u!114 &1819679873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819679867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7912573fd7de7064589e7c32cac6e355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1834903985
 GameObject:
   m_ObjectHideFlags: 0
@@ -5360,7 +5373,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105670310}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.248458, y: 3.266491, z: 3.6079054}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
