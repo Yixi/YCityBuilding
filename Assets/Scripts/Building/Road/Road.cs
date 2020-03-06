@@ -26,11 +26,11 @@ public class Road : Building
     [SerializeField] public int rotation = 0;
     
     
-    private List<GameObject> roadsPrefs;
+    private List<GameObject> roadsPrefbs;
 
     public void Awake()
     {
-        roadsPrefs = new List<GameObject> {straight, turn, crossingT, crossing};
+        roadsPrefbs = new List<GameObject> {straight, turn, crossingT, crossing};
         SetTypeAndDirection(roadType, rotation);
     }
     
@@ -39,8 +39,8 @@ public class Road : Building
     {
         rotation = (int) r;
         roadType = t;
-        roadsPrefs.ForEach(p => p.SetActive(false));
-        roadsPrefs[(int) roadType].SetActive(true);
+        roadsPrefbs.ForEach(p => p.SetActive(false));
+        roadsPrefbs[(int) roadType].SetActive(true);
         road.transform.rotation = Quaternion.Euler(new Vector3(0, r, 0));
     }
 

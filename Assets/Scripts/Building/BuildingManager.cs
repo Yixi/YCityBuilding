@@ -12,6 +12,7 @@ public class BuildingManager : MonoBehaviour
 
     [SerializeField] private ParticleSystem place;
     private GameManager _gameManager;
+    private ResourceManager _resourceManager;
 
     private Ground _ground;
 
@@ -19,6 +20,7 @@ public class BuildingManager : MonoBehaviour
     void Start()
     {
         _gameManager = GetComponent<GameManager>();
+        _resourceManager = GetComponent<ResourceManager>();
         _ground = GameObject.Find("Ground").GetComponent<Ground>();
 
         InitTiles();
@@ -89,6 +91,12 @@ public class BuildingManager : MonoBehaviour
                 tiles[(int) position.x + x, (int) position.z + z].referenceBuilding = addedBuilding;
             });
         });
+        
+        subtractMoney(building);
+        if (building.type == Building.BuildingType.Uptown) {
+             ((Uptown)building).resourceManager = _resourceManager;
+            ((Uptown)building).ReadyToCheckIn();
+        }
     }
 
 
@@ -137,7 +145,14 @@ public class BuildingManager : MonoBehaviour
         {
             vehicleController.AddAutoDriveCar();
         }
+
+        subtractMoney(road);
     }
+
+    private void subtractMoney(Building building) {
+        _resourceManager.subtractMoney(building.cost);
+    }
+
 
     private void CorrectionRoad(int x, int z, bool needFixAround = false)
     {

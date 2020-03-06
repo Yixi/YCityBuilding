@@ -2955,7 +2955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 924eee3d0a254784eb6dab4cf1dd93a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: -5956178390763059347, guid: df93f3d6378363547a6e517b28966afd,
+  building: {fileID: 9062036830762662555, guid: df93f3d6378363547a6e517b28966afd,
     type: 3}
 --- !u!1 &1374221676
 GameObject:
@@ -3613,7 +3613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 924eee3d0a254784eb6dab4cf1dd93a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 6489110940147476380, guid: 9d066d3a85342e641b13298c363d311f,
+  building: {fileID: -2908489867768563070, guid: 9d066d3a85342e641b13298c363d311f,
     type: 3}
 --- !u!114 &1672191654
 MonoBehaviour:
@@ -4065,6 +4065,7 @@ GameObject:
   - component: {fileID: 1819679868}
   - component: {fileID: 1819679871}
   - component: {fileID: 1819679870}
+  - component: {fileID: 1819679872}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -4129,6 +4130,20 @@ MonoBehaviour:
   roadsParent: {fileID: 1050819518}
   vehicleController: {fileID: 456176567}
   place: {fileID: 6426259965117195093, guid: 99dfaadff09f0f3428d60cb478a86c3d, type: 3}
+--- !u!114 &1819679872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819679867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31f2e63998b6890479f94e85f0bc66a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  peopleText: {fileID: 1839344142}
+  MoneyText: {fileID: 1151482451}
 --- !u!1 &1834903985
 GameObject:
   m_ObjectHideFlags: 0
