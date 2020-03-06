@@ -30,12 +30,18 @@ public class Building : MonoBehaviour
     public MeshRenderer mesh;
     public GameObject arrow;
 
+    protected bool isActive = false;
+
     public void ShowFrontArrow()
     {
         if (arrow)
         {
             arrow.SetActive(true);
         }
+    }
+
+    public void SetActive () {
+        isActive = true;
     }
 
     public void SetColor(Color color)
@@ -46,8 +52,8 @@ public class Building : MonoBehaviour
             {
                 color = color
             };
-            material.SetInt("_SrcBlend", (int) UnityEngine.Rendering.BlendMode.SrcAlpha);
-            material.SetInt("_DstBlend", (int) UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
             material.SetInt("_ZWrite", 0);
             material.DisableKeyword("_ALPHATEST_ON");
             material.EnableKeyword("_ALPHABLEND_ON");

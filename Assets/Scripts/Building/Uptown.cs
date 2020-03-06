@@ -8,24 +8,36 @@ public class Uptown : Building
     [Header("Uptown values")]
     public int maxPeopleCount;
     private ResourceManager _resourceManager;
+    private float checkInTimer = 10.0f;
     private int currentPeopleIn;
 
-    private void Awake() {
+    private void Awake()
+    {
         _resourceManager = GameObject.Find("Game Manager").GetComponent<ResourceManager>();
     }
     public void ReadyToCheckIn()
     {
-        IncreasePeople();
+        if (isActive)
+        {
+            IncreasePeople();
+        }
     }
 
-    private void IncreasePeople() {
-        var increased = Random.Range(0, 3);
+    private void IncreasePeople()
+    {
 
-        currentPeopleIn += increased;
-        _resourceManager.increasePeople(increased);        
+        if (currentPeopleIn < maxPeopleCount)
+        {
+            checkInTimer -= Time.deltaTime;
+            if (checkInTimer <= 0)
+            {
+                var increased = Random.Range(0, 3);
 
-        if (currentPeopleIn < maxPeopleCount) {
-            Invoke("IncreasePeople", 10.0f);
+                currentPeopleIn += increased;
+                _resourceManager.increasePeople(increased);
+            }
         }
+
+
     }
 }

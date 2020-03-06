@@ -93,11 +93,7 @@ public class BuildingManager : MonoBehaviour
         });
         
         subtractMoney(addedBuilding);
-        if (addedBuilding.type == Building.BuildingType.Uptown) {
-            ((Uptown)addedBuilding).ReadyToCheckIn();
-        } else if (addedBuilding.type == Building.BuildingType.Industry) {
-            ((Industry)addedBuilding).ReadyToProduce();
-        }
+        addedBuilding.SetActive();
     }
 
 
