@@ -15,10 +15,9 @@ public class Uptown : Building
     {
         _resourceManager = GameObject.Find("Game Manager").GetComponent<ResourceManager>();
     }
-    public void ReadyToCheckIn()
-    {
-        if (isActive)
-        {
+
+    private void Update() {
+        if (isActive) {
             IncreasePeople();
         }
     }

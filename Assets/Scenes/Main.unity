@@ -4156,6 +4156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7912573fd7de7064589e7c32cac6e355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  receiptBusinesses: []
 --- !u!1 &1834903985
 GameObject:
   m_ObjectHideFlags: 0
